@@ -59,113 +59,117 @@
 
 				?>
 				<?if($field_id == "AUTO_TIME_ZONE" && $arResult["TIME_ZONE_ENABLED"] == true):?>
-					<label><?=!empty($field_label) ? $field_label : GetMessage("main_profile_time_zones_auto")?>:<?=$field_required?></label>
-					<select name="REGISTER[AUTO_TIME_ZONE]" onchange="this.form.elements['REGISTER[TIME_ZONE]'].disabled=(this.value != 'N')">
-						<option value=""><?=GetMessage("main_profile_time_zones_auto_def")?></option>
-						<option value="Y"<?=$arResult["VALUES"][$field_id] == "Y" ? " selected=\"selected\"" : ""?>><?=GetMessage("main_profile_time_zones_auto_yes")?></option>
-						<option value="N"<?=$arResult["VALUES"][$field_id] == "N" ? " selected=\"selected\"" : ""?>><?=GetMessage("main_profile_time_zones_auto_no")?></option>
-					</select>
+					<div class="field field-<?=$field_id?>">
+						<label><?=!empty($field_label) ? $field_label : GetMessage("main_profile_time_zones_auto")?>:<?=$field_required?></label>
+						<select name="REGISTER[AUTO_TIME_ZONE]" onchange="this.form.elements['REGISTER[TIME_ZONE]'].disabled=(this.value != 'N')">
+							<option value=""><?=GetMessage("main_profile_time_zones_auto_def")?></option>
+							<option value="Y"<?=$arResult["VALUES"][$field_id] == "Y" ? " selected=\"selected\"" : ""?>><?=GetMessage("main_profile_time_zones_auto_yes")?></option>
+							<option value="N"<?=$arResult["VALUES"][$field_id] == "N" ? " selected=\"selected\"" : ""?>><?=GetMessage("main_profile_time_zones_auto_no")?></option>
+						</select>
 
-					<label><?=GetMessage("main_profile_time_zones_zones")?></label>
-					<select name="REGISTER[TIME_ZONE]"<?if(!isset($_REQUEST["REGISTER"]["TIME_ZONE"])) echo 'disabled="disabled"'?>>
-						<?foreach($arResult["TIME_ZONE_LIST"] as $tz => $tz_name):?>
-							<option value="<?=htmlspecialchars($tz)?>"<?=$arResult["VALUES"]["TIME_ZONE"] == $tz ? " selected=\"selected\"" : ""?>><?=htmlspecialchars($tz_name)?></option>
-						<?endforeach?>
-					</select>
+						<label><?=GetMessage("main_profile_time_zones_zones")?></label>
+						<select name="REGISTER[TIME_ZONE]"<?if(!isset($_REQUEST["REGISTER"]["TIME_ZONE"])) echo 'disabled="disabled"'?>>
+							<?foreach($arResult["TIME_ZONE_LIST"] as $tz => $tz_name):?>
+								<option value="<?=htmlspecialchars($tz)?>"<?=$arResult["VALUES"]["TIME_ZONE"] == $tz ? " selected=\"selected\"" : ""?>><?=htmlspecialchars($tz_name)?></option>
+							<?endforeach?>
+						</select>
+					</div>
 				<?else:?>
-					<label><?=!empty($field_label) ? $field_label : GetMessage("REGISTER_FIELD_".$field_id)?>:<?=$field_required?></label>
-					<?php
+					<div class="field field-<?=$field_id?>">
+						<label><?=!empty($field_label) ? $field_label : GetMessage("REGISTER_FIELD_".$field_id)?>:<?=$field_required?></label>
+						<?php
 
-						switch ($field_id)
-						{
-							// Пароль
-							case "PASSWORD":
-								?>
-									<input size="30" type="password" name="REGISTER[<?=$field_id?>]" value="<?=$arResult["VALUES"][$field_id]?>" autocomplete="off" class="bx-auth-input">
-									<?if($arResult["SECURE_AUTH"]):?>
-										<span class="bx-auth-secure" id="bx_auth_secure" title="<?=GetMessage("AUTH_SECURE_NOTE")?>" style="display:none">
-											<div class="bx-auth-secure-icon"></div>
-										</span>
-										<noscript>
-											<span class="bx-auth-secure" title="<?=GetMessage("AUTH_NONSECURE_NOTE")?>">
-												<div class="bx-auth-secure-icon bx-auth-secure-unlock"></div>
+							switch ($field_id)
+							{
+								// Пароль
+								case "PASSWORD":
+									?>
+										<input size="30" type="password" name="REGISTER[<?=$field_id?>]" value="<?=$arResult["VALUES"][$field_id]?>" autocomplete="off" class="bx-auth-input">
+										<?if($arResult["SECURE_AUTH"]):?>
+											<span class="bx-auth-secure" id="bx_auth_secure" title="<?=GetMessage("AUTH_SECURE_NOTE")?>" style="display:none">
+												<div class="bx-auth-secure-icon"></div>
 											</span>
-										</noscript>
-										<script type="text/javascript">
-											document.getElementById('bx_auth_secure').style.display = 'inline-block';
-										</script>
-									<?endif?>
-								<?
-							break;
+											<noscript>
+												<span class="bx-auth-secure" title="<?=GetMessage("AUTH_NONSECURE_NOTE")?>">
+													<div class="bx-auth-secure-icon bx-auth-secure-unlock"></div>
+												</span>
+											</noscript>
+											<script type="text/javascript">
+												document.getElementById('bx_auth_secure').style.display = 'inline-block';
+											</script>
+										<?endif?>
+									<?
+								break;
 
-							// Подтверждение пароля
-							case "CONFIRM_PASSWORD":
-								?>
-									<input size="30" type="password" name="REGISTER[<?=$field_id?>]" value="<?=$arResult["VALUES"][$field_id]?>" autocomplete="off"/>
-								<?
-							break;
+								// Подтверждение пароля
+								case "CONFIRM_PASSWORD":
+									?>
+										<input size="30" type="password" name="REGISTER[<?=$field_id?>]" value="<?=$arResult["VALUES"][$field_id]?>" autocomplete="off"/>
+									<?
+								break;
 
-							// Пол
-							case "PERSONAL_GENDER":
-								?>
-									<select name="REGISTER[<?=$field_id?>]">
-										<option value=""><?=GetMessage("USER_DONT_KNOW")?></option>
-										<option value="M"<?=$arResult["VALUES"][$field_id] == "M" ? " selected=\"selected\"" : ""?>><?=GetMessage("USER_MALE")?></option>
-										<option value="F"<?=$arResult["VALUES"][$field_id] == "F" ? " selected=\"selected\"" : ""?>><?=GetMessage("USER_FEMALE")?></option>
-									</select>
-								<?
-							break;
+								// Пол
+								case "PERSONAL_GENDER":
+									?>
+										<select name="REGISTER[<?=$field_id?>]">
+											<option value=""><?=GetMessage("USER_DONT_KNOW")?></option>
+											<option value="M"<?=$arResult["VALUES"][$field_id] == "M" ? " selected=\"selected\"" : ""?>><?=GetMessage("USER_MALE")?></option>
+											<option value="F"<?=$arResult["VALUES"][$field_id] == "F" ? " selected=\"selected\"" : ""?>><?=GetMessage("USER_FEMALE")?></option>
+										</select>
+									<?
+								break;
 
-							// Страна проживания и работы
-							case "PERSONAL_COUNTRY":
-							case "WORK_COUNTRY":
-								?>
-									<select name="REGISTER[<?=$field_id?>]">
-										<?foreach ($arResult["COUNTRIES"]["reference_id"] as $key => $value):?>
-											<option value="<?=$value?>"<?if($value == $arResult["VALUES"][$field_id]):?> selected="selected"<?endif?>><?=$arResult["COUNTRIES"]["reference"][$key]?></option>
-										<?endforeach?>
-									</select>
-								<?
-							break;
+								// Страна проживания и работы
+								case "PERSONAL_COUNTRY":
+								case "WORK_COUNTRY":
+									?>
+										<select name="REGISTER[<?=$field_id?>]">
+											<?foreach ($arResult["COUNTRIES"]["reference_id"] as $key => $value):?>
+												<option value="<?=$value?>"<?if($value == $arResult["VALUES"][$field_id]):?> selected="selected"<?endif?>><?=$arResult["COUNTRIES"]["reference"][$key]?></option>
+											<?endforeach?>
+										</select>
+									<?
+								break;
 
-							// Персональный аватар и логотип работы
-							case "PERSONAL_PHOTO":
-							case "WORK_LOGO":
-								?>
-									<input size="30" type="file" name="REGISTER_FILES_<?=$field_id?>"/>
-								<?
-							break;
+								// Персональный аватар и логотип работы
+								case "PERSONAL_PHOTO":
+								case "WORK_LOGO":
+									?>
+										<input size="30" type="file" name="REGISTER_FILES_<?=$field_id?>"/>
+									<?
+								break;
 
-							// Заметки
-							case "PERSONAL_NOTES":
-							case "WORK_NOTES":
-								?>
-									<textarea cols="30" rows="5" name="REGISTER[<?=$field_id?>]"><?=$arResult["VALUES"][$field_id]?></textarea>
-								<?
-							break;
+								// Заметки
+								case "PERSONAL_NOTES":
+								case "WORK_NOTES":
+									?>
+										<textarea cols="30" rows="5" name="REGISTER[<?=$field_id?>]"><?=$arResult["VALUES"][$field_id]?></textarea>
+									<?
+								break;
 
-							// День рождения
-							case "PERSONAL_BIRTHDAY":
-								?>
-									<small><?=$arResult["DATE_FORMAT"]?></small><br>
-									<input size="30" type="text" name="REGISTER[<?=$field_id?>]" value="<?=$arResult["VALUES"][$field_id]?>">
-									<?$APPLICATION->IncludeComponent('bitrix:main.calendar', '', array(
-										'SHOW_INPUT' => 'N',
-										'FORM_NAME' => 'regform',
-										'INPUT_NAME' => 'REGISTER[PERSONAL_BIRTHDAY]',
-										'SHOW_TIME' => 'N'
-										), null, array("HIDE_ICONS" => "Y")
-									)?>
-								<?
-							break;
+								// День рождения
+								case "PERSONAL_BIRTHDAY":
+									?>
+										<small><?=$arResult["DATE_FORMAT"]?></small><br>
+										<input size="30" type="text" name="REGISTER[<?=$field_id?>]" value="<?=$arResult["VALUES"][$field_id]?>">
+										<?$APPLICATION->IncludeComponent('bitrix:main.calendar', '', array(
+											'SHOW_INPUT' => 'N',
+											'FORM_NAME' => 'regform',
+											'INPUT_NAME' => 'REGISTER[PERSONAL_BIRTHDAY]',
+											'SHOW_TIME' => 'N'
+											), null, array("HIDE_ICONS" => "Y")
+										)?>
+									<?
+								break;
 
-							default:
-								printf('<input size="30" type="text" name="REGISTER[%s]" value="%s"/>',
-									$field_id,
-									$arResult["VALUES"][$field_id]
-								);
-						}
-					?>
+								default:
+									printf('<input size="30" type="text" name="REGISTER[%s]" value="%s"/>',
+										$field_id,
+										$arResult["VALUES"][$field_id]
+									);
+							}
+						?>
+					</div>
 				<?endif?>
 			<?endforeach?>
 
@@ -196,7 +200,9 @@
 				<input type="text" name="captcha_word" maxlength="50" value=""/>
 			<?endif?>
 
-			<input class="submit" type="submit" name="register_submit_button" value="<?=GetMessage("AUTH_REGISTER")?>"/>
+			<div class="field field-submit">
+				<input class="submit" type="submit" name="register_submit_button" value="<?=GetMessage("AUTH_REGISTER")?>"/>
+			</div>
 
 			<?if($arParams['SHOW_GROUP_POLICY'] != 'N'):?>
 				<p><?=$arResult["GROUP_POLICY"]["PASSWORD_REQUIREMENTS"];?></p>
