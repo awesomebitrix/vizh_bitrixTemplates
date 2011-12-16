@@ -27,7 +27,9 @@
 				<input type="hidden" name="backurl" value="<?=$arResult["BACKURL"]?>"/>
 			<?endif?>
 
-			<h2><?=GetMessage("AUTH_REGISTER")?></h2>
+			<?if($arParams['SHOW_SECTION_HEADERS'] != 'N'):?>
+				<h2><?=GetMessage("AUTH_REGISTER")?></h2>
+			<?endif?>
 			<?foreach($arResult["SHOW_FIELDS"] as $field_id):?>
 				<?$field_required = $arResult["REQUIRED_FIELDS_FLAGS"][$field_id] == 'Y' ? ' <span class="starrequired">*</span>' : ''?>
 				<?if($field_id == "AUTO_TIME_ZONE" && $arResult["TIME_ZONE_ENABLED"] == true):?>
@@ -143,7 +145,9 @@
 
 			<?/* Пользовательские свойства */?>
 			<?if($arResult["USER_PROPERTIES"]["SHOW"] == "Y"):?>
-				<h2><?=strlen(trim($arParams["USER_PROPERTY_NAME"])) > 0 ? $arParams["USER_PROPERTY_NAME"] : GetMessage("USER_TYPE_EDIT_TAB")?></h2>
+				<?if($arParams['SHOW_SECTION_HEADERS'] != 'N'):?>
+					<h2><?=strlen(trim($arParams["USER_PROPERTY_NAME"])) > 0 ? $arParams["USER_PROPERTY_NAME"] : GetMessage("USER_TYPE_EDIT_TAB")?></h2>
+				<?endif?>
 				<?foreach($arResult["USER_PROPERTIES"]["DATA"] as $FIELD_NAME => $arUserField):?>
 					<label><?=$arUserField["EDIT_FORM_LABEL"]?>:<?if($arUserField["MANDATORY"] == "Y"):?> <span class="required">*</span><?endif?></label>
 					<?$APPLICATION->IncludeComponent("bitrix:system.field.edit", $arUserField["USER_TYPE"]["USER_TYPE_ID"], array(
@@ -157,7 +161,9 @@
 
 			<?/* Капча */?>
 			<?if($arResult['USE_CAPTCHA'] == 'Y'):?>
-				<h2><?=GetMessage('REGISTER_CAPTCHA_TITLE')?></h2>
+				<?if($arParams['SHOW_SECTION_HEADERS'] != 'N'):?>
+					<h2><?=GetMessage('REGISTER_CAPTCHA_TITLE')?></h2>
+				<?endif?>
 				<input type="hidden" name="captcha_sid" value="<?=$arResult["CAPTCHA_CODE"]?>"/>
 				<img src="/bitrix/tools/captcha.php?captcha_sid=<?=$arResult["CAPTCHA_CODE"]?>" width="180" height="40" alt="CAPTCHA">
 				<label><?=GetMessage("REGISTER_CAPTCHA_PROMT")?>:<span class="starrequired">*</span></label>

@@ -1,4 +1,9 @@
-.bx-auth-reg label, .bx-auth-reg .submit {
+.bx-auth-reg label {
+	display: block;
+	margin: 1em 0 2px 1px;
+}
+
+.bx-auth-reg .submit {
 	display: block;
 	margin-top: 1em;
 }
