@@ -31,9 +31,35 @@
 				<h2><?=GetMessage("AUTH_REGISTER")?></h2>
 			<?endif?>
 			<?foreach($arResult["SHOW_FIELDS"] as $field_id):?>
-				<?$field_required = $arResult["REQUIRED_FIELDS_FLAGS"][$field_id] == 'Y' ? ' <span class="starrequired">*</span>' : ''?>
+				<?php
+ 					$field_label = '';
+					$field_required = $arResult["REQUIRED_FIELDS_FLAGS"][$field_id] == 'Y' ? ' <span class="starrequired">*</span>' : '';
+
+					if ($arParams['USE_EMAIL_AS_LOGIN'] == 'Y')
+					{
+						switch ($field_id)
+						{
+							case 'LOGIN':
+								$field_label = GetMessage("REGISTER_FIELD_EMAIL");
+							break;
+
+							case 'EMAIL':
+								?>
+									<input type="hidden" name="REGISTER[EMAIL]" value="">
+									<script type="text/javascript">
+										$(".bx-auth-reg form").live('submit', function(){
+											var email = $(".bx-auth-reg input[name='REGISTER[LOGIN]']").attr("value");
+											$(".bx-auth-reg input[name='REGISTER[EMAIL]']").attr("value", email);
+										})
+									</script>
+								<?
+							continue(2);
+						}
+					}
+
+				?>
 				<?if($field_id == "AUTO_TIME_ZONE" && $arResult["TIME_ZONE_ENABLED"] == true):?>
-					<label><?=GetMessage("main_profile_time_zones_auto")?>:<?=$field_required?></label>
+					<label><?=!empty($field_label) ? $field_label : GetMessage("main_profile_time_zones_auto")?>:<?=$field_required?></label>
 					<select name="REGISTER[AUTO_TIME_ZONE]" onchange="this.form.elements['REGISTER[TIME_ZONE]'].disabled=(this.value != 'N')">
 						<option value=""><?=GetMessage("main_profile_time_zones_auto_def")?></option>
 						<option value="Y"<?=$arResult["VALUES"][$field_id] == "Y" ? " selected=\"selected\"" : ""?>><?=GetMessage("main_profile_time_zones_auto_yes")?></option>
@@ -47,7 +73,7 @@
 						<?endforeach?>
 					</select>
 				<?else:?>
-					<label><?=GetMessage("REGISTER_FIELD_".$field_id)?>:<?=$field_required?></label>
+					<label><?=!empty($field_label) ? $field_label : GetMessage("REGISTER_FIELD_".$field_id)?>:<?=$field_required?></label>
 					<?php
 
 						switch ($field_id)

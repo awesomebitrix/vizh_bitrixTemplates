@@ -7,6 +7,12 @@
 			'DEFAULT' => ''
 		),
 
+		'USE_EMAIL_AS_LOGIN' => array(
+			'NAME' => 'Использовать Email в качестве логина (требуется jQuery)',
+			'TYPE' => 'CHECKBOX',
+			'DEFAULT' => 'N'
+		),
+
 		'SHOW_GROUP_POLICY' => array(
 			'NAME' => GetMessage('SHOW_GROUP_POLICY'),
 			'TYPE' => 'CHECKBOX',
