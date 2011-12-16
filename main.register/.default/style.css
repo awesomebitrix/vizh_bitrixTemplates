@@ -7,3 +7,7 @@
 	display: block;
 	margin-top: 1em;
 }
+
+.bx-auth-reg div.field.error label {
+	color: red;
+}

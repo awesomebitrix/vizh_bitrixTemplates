@@ -19,7 +19,7 @@
 			}
 
 			elseif ($arResult['USE_EMAIL_CONFIRMATION'] === 'Y')
-				echo '<p>'.GetMessage('REGISTER_EMAIL_WILL_BE_SENT').'</p>'
+				echo '<p>'.GetMessage('REGISTER_EMAIL_WILL_BE_SENT').'</p>';
 
 		?>
 		<form method="post" action="<?=POST_FORM_ACTION_URI?>" name="regform" enctype="multipart/form-data">
@@ -33,7 +33,15 @@
 			<?foreach($arResult["SHOW_FIELDS"] as $field_id):?>
 				<?php
  					$field_label = '';
+					$field_placeholder = '';
 					$field_required = $arResult["REQUIRED_FIELDS_FLAGS"][$field_id] == 'Y' ? ' <span class="starrequired">*</span>' : '';
+
+					switch ($field_id)
+					{
+						case 'EMAIL'		: $field_placeholder = 'Адрес электронной почты';	break;
+						case 'NAME'			: $field_placeholder = 'Иван';						break;
+						case 'LAST_NAME'	: $field_placeholder = 'Иванов';					break;
+					}
 
 					if ($arParams['USE_EMAIL_AS_LOGIN'] == 'Y')
 					{
@@ -41,6 +49,7 @@
 						{
 							case 'LOGIN':
 								$field_label = GetMessage("REGISTER_FIELD_EMAIL");
+								$field_placeholder = 'Адрес электронной почты';
 							break;
 
 							case 'EMAIL':
@@ -75,7 +84,7 @@
 						</select>
 					</div>
 				<?else:?>
-					<div class="field field-<?=$field_id?>">
+					<div class="field field-<?=$field_id?><?if(isset($arResult['ERRORS'][$field_id])):?> error<?endif?>">
 						<label><?=!empty($field_label) ? $field_label : GetMessage("REGISTER_FIELD_".$field_id)?>:<?=$field_required?></label>
 						<?php
 
@@ -163,9 +172,10 @@
 								break;
 
 								default:
-									printf('<input size="30" type="text" name="REGISTER[%s]" value="%s"/>',
+									printf('<input size="30" type="text" name="REGISTER[%s]" value="%s"%s/>',
 										$field_id,
-										$arResult["VALUES"][$field_id]
+										$arResult["VALUES"][$field_id],
+										empty($field_placeholder) ? '' : ' placeholder="'.$field_placeholder.'"'
 									);
 							}
 						?>
