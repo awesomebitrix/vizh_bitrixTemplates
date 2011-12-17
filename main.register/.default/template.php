@@ -35,6 +35,7 @@
  					$field_label = '';
 					$field_placeholder = '';
 					$field_required = $arResult["REQUIRED_FIELDS_FLAGS"][$field_id] == 'Y' ? ' <span class="starrequired">*</span>' : '';
+					$field_error = isset($arResult['ERRORS'][$field_id]);
 
 					switch ($field_id)
 					{
@@ -68,7 +69,7 @@
 
 				?>
 				<?if($field_id == "AUTO_TIME_ZONE" && $arResult["TIME_ZONE_ENABLED"] == true):?>
-					<div class="field field-<?=$field_id?>">
+					<div class="field field-<?=$field_id?><?=$field_error ? ' error' : ''?>">
 						<label><?=!empty($field_label) ? $field_label : GetMessage("main_profile_time_zones_auto")?>:<?=$field_required?></label>
 						<select name="REGISTER[AUTO_TIME_ZONE]" onchange="this.form.elements['REGISTER[TIME_ZONE]'].disabled=(this.value != 'N')">
 							<option value=""><?=GetMessage("main_profile_time_zones_auto_def")?></option>
@@ -84,7 +85,7 @@
 						</select>
 					</div>
 				<?else:?>
-					<div class="field field-<?=$field_id?><?if(isset($arResult['ERRORS'][$field_id])):?> error<?endif?>">
+					<div class="field field-<?=$field_id?><?=$field_error ? ' error' : ''?>">
 						<label><?=!empty($field_label) ? $field_label : GetMessage("REGISTER_FIELD_".$field_id)?>:<?=$field_required?></label>
 						<?php
 
