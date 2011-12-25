@@ -1,0 +1,20 @@
+.bx-vTable label {
+	display: block;
+	margin: 1em 0 2px 1px;
+}
+
+.bx-vTable .submit {
+	display: block;
+	margin-top: 1em;
+}
+
+.bx-vTable div.field.error label {
+	float: left;
+}
+
+.bx-vTable span.error {
+	float: right;
+	margin-top: 1.1em;
+	font-style: italic;
+	font-size: 11px;
+}
