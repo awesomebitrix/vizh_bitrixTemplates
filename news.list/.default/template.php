@@ -47,27 +47,29 @@
 						$arElement['PREVIEW_PICTURE']['SRC'],
 						$arElement['PREVIEW_PICTURE']['WIDTH'],
 						$arElement['PREVIEW_PICTURE']['HEIGHT'],
-						sprintf('alt="%s" title="%1$s"', $arElement['NAME']),
+						sprintf('class="news-image" alt="%s" title="%1$s"', $arElement['NAME']),
 						(!$arParams['HIDE_LINK_WHEN_NO_DETAIL'] || ($arElement['DETAIL_TEXT'] && $arElement['USER_HAVE_ACCESS'])) ? $arElement['DETAIL_PAGE_URL'] : false
 					);
 
 			?>
 
-			<?if($arParams['DISPLAY_DATE'] != 'N' && $arElement['DISPLAY_ACTIVE_FROM']):?>
-				<span class="date"><?=$arElement['DISPLAY_ACTIVE_FROM']?></span>
-			<?endif?>
-
-			<?if($arParams['DISPLAY_NAME'] != 'N' && $arElement['NAME']):?>
-				<?if(!$arParams['HIDE_LINK_WHEN_NO_DETAIL'] || ($arElement['DETAIL_TEXT'] && $arResult['USER_HAVE_ACCESS'])):?>
-					<a href="<?=$arElement['DETAIL_PAGE_URL']?>"><?=$arElement['NAME']?></a>
-				<?else:?>
-					<?=$arElement['NAME']?>
+			<div class="news-item">
+				<?if($arParams['DISPLAY_DATE'] != 'N' && $arElement['DISPLAY_ACTIVE_FROM']):?>
+					<span class="news-date"><?=$arElement['DISPLAY_ACTIVE_FROM']?></span>
 				<?endif?>
-			<?endif?>
 
-			<?if($arParams['DISPLAY_PREVIEW_TEXT'] != 'N' && $arElement['PREVIEW_TEXT']):?>
-				<p><?=$arElement['PREVIEW_TEXT']?></p>
-			<?endif?>
+				<?if($arParams['DISPLAY_NAME'] != 'N' && $arElement['NAME']):?>
+					<?if(!$arParams['HIDE_LINK_WHEN_NO_DETAIL'] || ($arElement['DETAIL_TEXT'] && $arResult['USER_HAVE_ACCESS'])):?>
+						<a href="<?=$arElement['DETAIL_PAGE_URL']?>"><?=$arElement['NAME']?></a>
+					<?else:?>
+						<?=$arElement['NAME']?>
+					<?endif?>
+				<?endif?>
+
+				<?if($arParams['DISPLAY_PREVIEW_TEXT'] != 'N' && $arElement['PREVIEW_TEXT']):?>
+					<p><?=$arElement['PREVIEW_TEXT']?></p>
+				<?endif?>
+			</div>
 		</li>
 	<?endforeach?>
 </ul>
