@@ -3,9 +3,27 @@
 	margin: 1em 0 2px 1px;
 }
 
-.bx-vTable .submit {
+.bx-vTable input[type="submit"] {
 	display: block;
 	margin-top: 1em;
+}
+
+.bx-vTable-captchaPicture {
+	float: left;
+}
+
+.bx-vTable-captchaArrow {
+	float: left;
+	margin: 0 12px;
+	font-size: 27px;
+}
+
+.bx-vTable input[name="captcha_word"] {
+	float: left;
+	margin: 0; padding: 3px;
+	font-size: 20px;
+	width: 120px;
+	height: 30px;
 }
 
 .bx-vTable div.field.error label {

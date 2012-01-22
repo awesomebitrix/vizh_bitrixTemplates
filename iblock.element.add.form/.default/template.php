@@ -6,6 +6,9 @@
 	if (strlen($arResult['MESSAGE']) > 0)
 		echo ShowNote($arResult['MESSAGE']);
 
+	if (empty($arParams['SUBMIT_NAME']))
+		$arParams['SUBMIT_NAME'] = 'Создать';
+
 ?>
 
 <div class="bx-vTable">
@@ -253,12 +256,14 @@
 			<?if($arParams['USE_CAPTCHA'] == 'Y' && $arParams['ID'] <= 0):?>
 				<label>Введите слово на картинке:<span class="starrequired">*</span></label>
 				<input type="hidden" name="captcha_sid" value="<?=$arResult['CAPTCHA_CODE']?>"/>
-				<img src="/bitrix/tools/captcha.php?captcha_sid=<?=$arResult['CAPTCHA_CODE']?>" width="180" height="40" alt="CAPTCHA"/>
+				<img class="bx-vTable-captchaPicture" src="/bitrix/tools/captcha.php?captcha_sid=<?=$arResult['CAPTCHA_CODE']?>" width="180" height="40" alt="CAPTCHA"/>
+				<div class="bx-vTable-captchaArrow">&rarr;</div>
 				<input type="text" name="captcha_word" maxlength="50" value="">
+				<br clear="all">
 			<?endif?>
 		<?endif?>
 
-		<input type="submit" name="iblock_submit" value="<?=GetMessage("IBLOCK_FORM_SUBMIT")?>"/>
+		<input type="submit" name="iblock_submit" value="<?=$arParams['SUBMIT_NAME']?>"/>
 		<?if(strlen($arParams["LIST_URL"]) > 0 && $arParams["ID"] > 0):?>
 			<input type="submit" name="iblock_apply" value="<?=GetMessage("IBLOCK_FORM_APPLY")?>"/><br/>
 			<a href="<?=$arParams["LIST_URL"]?>"><?=GetMessage("IBLOCK_FORM_BACK")?></a>
