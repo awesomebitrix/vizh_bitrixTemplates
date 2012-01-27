@@ -14,6 +14,7 @@
 
 .bx-auth-reg div.field-captcha {
 	overflow: hidden;
+	padding-bottom: 3px;
 }
 
 .bx-auth-reg .bx-vTable-captchaPicture {
