@@ -205,10 +205,13 @@
 				<?if($arParams['SHOW_SECTION_HEADERS'] != 'N'):?>
 					<h2><?=GetMessage('REGISTER_CAPTCHA_TITLE')?></h2>
 				<?endif?>
-				<input type="hidden" name="captcha_sid" value="<?=$arResult["CAPTCHA_CODE"]?>"/>
-				<img src="/bitrix/tools/captcha.php?captcha_sid=<?=$arResult["CAPTCHA_CODE"]?>" width="180" height="40" alt="CAPTCHA">
-				<label><?=GetMessage("REGISTER_CAPTCHA_PROMT")?>:<span class="starrequired">*</span></label>
-				<input type="text" name="captcha_word" maxlength="50" value=""/>
+				<div class="field field-captcha">
+					<label><?=GetMessage("REGISTER_CAPTCHA_PROMT")?>:<span class="starrequired">*</span></label>
+					<input type="hidden" name="captcha_sid" value="<?=$arResult['CAPTCHA_CODE']?>"/>
+					<img class="bx-vTable-captchaPicture" src="/bitrix/tools/captcha.php?captcha_sid=<?=$arResult['CAPTCHA_CODE']?>" width="180" height="40" alt="CAPTCHA"/>
+					<div class="bx-vTable-captchaArrow">&rarr;</div>
+					<input type="text" name="captcha_word" maxlength="50" value="">
+				</div>
 			<?endif?>
 
 			<div class="field field-submit">
