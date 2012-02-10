@@ -41,7 +41,7 @@
 					$input_type = $arField['GetPublicEditHTML'] ? 'USER_TYPE' : $arField['PROPERTY_TYPE'];
 					$input_num  = 1;
 
-					if ($arField[$field_id]['MULTIPLE'] == 'Y')
+					if ($arField['MULTIPLE'] == 'Y')
 					{
 						$input_num = ($arParams['ID'] > 0 || count($arResult['ERRORS']) > 0) ? count($arResult['ELEMENT_PROPERTIES'][$field_id]) : 0;
 						$input_num += $arField['MULTIPLE_CNT'];
