@@ -1,7 +1,12 @@
 <?php if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();
 
 	if (count($arResult['ERRORS']))
-		echo ShowError(implode('<br>', $arResult['ERRORS']));
+	{
+		$is_errors = true;
+		
+		if ($arParams['ERRORS_HIGHLITE_FIELDS'] != 'Y')
+			echo ShowError(implode('<br>', $arResult['ERRORS']));
+	}
 
 	if (strlen($arResult['MESSAGE']) > 0)
 		echo ShowNote($arResult['MESSAGE']);
@@ -25,6 +30,7 @@
 
 					$field_label = intval($field_id) > 0 ? $arField['NAME'] : (empty($arParams["CUSTOM_TITLE_{$field_id}"]) ? GetMessage("IBLOCK_FIELD_{$field_id}") : $arParams["CUSTOM_TITLE_{$field_id}"]);
 					$field_required = in_array($field_id, $arResult['PROPERTY_REQUIRED']) ? ' <span class="starrequired">*</span>' : '';
+					$field_error = false; // устанавливается в true или текст для отметки текущего поля, как содержащего ошибку
 
 					if (intval($field_id) > 0)
 					{
@@ -43,12 +49,27 @@
 
 					if ($arField['MULTIPLE'] == 'Y')
 					{
-						$input_num = ($arParams['ID'] > 0 || count($arResult['ERRORS']) > 0) ? count($arResult['ELEMENT_PROPERTIES'][$field_id]) : 0;
+						$input_num  = ($arParams['ID'] > 0 || $is_errors) ? count($arResult['ELEMENT_PROPERTIES'][$field_id]) : 0;
 						$input_num += $arField['MULTIPLE_CNT'];
 					}
+					
+					/**
+					 * Сейчас будет быдлокод. Я не смог найти способа идентифицировать поля,
+					 * в которых произошла ошибка, иначе чем разбирать сообщение об ошибке
+					 * на предмет названия поля. У кого-то есть идеи как сделать красивее?
+					 */
+						if ($arParams['ERRORS_HIGHLITE_FIELDS'] == 'Y' && $is_errors)
+						{
+							foreach ($arResult['ERRORS'] as $sError)
+								if (strpos($sError, " '{$field_label}' ") !== false)
+								{
+									$field_error = str_replace("Поле '{$field_label}' ", '', $sError);
+									break;
+								}
+						}
 
 				?>
-				<div class="field field-<?=$field_id?>">
+				<div class="field field-<?=$field_id?><?=$field_error ? ' error' : ''?>">
 					<label><?=$field_label?>:<?=$field_required?></label>
 					<?php
 
@@ -57,7 +78,7 @@
 							case 'USER_TYPE':
 								for ($i = 0; $i < $input_num; $i++)
 								{
-									if ($arParams["ID"] > 0 || count($arResult["ERRORS"]) > 0)
+									if ($arParams["ID"] > 0 || $is_errors)
 									{
 										$value = intval($field_id) > 0 ? $arResult["ELEMENT_PROPERTIES"][$field_id][$i]["~VALUE"] : $arResult["ELEMENT"][$field_id];
 										$description = intval($field_id) > 0 ? $arResult["ELEMENT_PROPERTIES"][$field_id][$i]["DESCRIPTION"] : "";
@@ -88,7 +109,7 @@
 							case 'T':
 								for ($i = 0; $i < $input_num; $i++)
 								{
-									if ($arParams["ID"] > 0 || count($arResult["ERRORS"]) > 0)
+									if ($arParams["ID"] > 0 || $is_errors)
 										$value = intval($field_id) > 0 ? $arResult["ELEMENT_PROPERTIES"][$field_id][$i]["VALUE"] : $arResult["ELEMENT"][$field_id];
 									else
 										if ($i == 0)
@@ -105,7 +126,7 @@
 							case "N":
 								for ($i = 0; $i < $input_num; $i++)
 								{
-									if ($arParams["ID"] > 0 || count($arResult["ERRORS"]) > 0)
+									if ($arParams["ID"] > 0 || $is_errors)
 										$value = intval($field_id) > 0 ? $arResult["ELEMENT_PROPERTIES"][$field_id][$i]["VALUE"] : $arResult["ELEMENT"][$field_id];
 									else
 										if ($i == 0)
@@ -113,13 +134,13 @@
 										else
 											$value = "";
 									?>
-								<input type="text" name="PROPERTY[<?=$field_id?>][<?=$i?>]" size="25" value="<?=$value?>"/><br/><?
+								<input type="text" name="PROPERTY[<?=$field_id?>][<?=$i?>]" size="25" value="<?=$value?>"/><?
 									if ($arField["USER_TYPE"] == "DateTime"):?><?
 										$APPLICATION->IncludeComponent('bitrix:main.calendar', '', array('FORM_NAME' => 'iblock_add', 'INPUT_NAME' => "PROPERTY[".$field_id."][".$i."]", 'INPUT_VALUE' => $value,), null, array('HIDE_ICONS' => 'Y'));
-										?><br/>
+										?>
 									<small><?=GetMessage("IBLOCK_FORM_DATE_FORMAT")?><?=FORMAT_DATETIME?></small><?
 									endif
-									?><br/><?
+									?><?
 								}
 							break;
 
@@ -185,7 +206,7 @@
 										foreach ($arField["ENUM"] as $key => $arEnum)
 										{
 											$checked = false;
-											if ($arParams["ID"] > 0 || count($arResult["ERRORS"]) > 0)
+											if ($arParams["ID"] > 0 || $is_errors)
 											{
 												if (is_array($arResult["ELEMENT_PROPERTIES"][$field_id]))
 												{
@@ -222,7 +243,7 @@
 											foreach ($arField["ENUM"] as $key => $arEnum)
 											{
 												$checked = false;
-												if ($arParams["ID"] > 0 || count($arResult["ERRORS"]) > 0)
+												if ($arParams["ID"] > 0 || $is_errors)
 												{
 													foreach ($arResult[$sKey][$field_id] as $elKey => $arElEnum)
 													{
@@ -250,6 +271,9 @@
 							break;
 						}
 					?>
+					<?if($field_error):?>
+						<span class="error"><?=$field_error?></span>
+					<?endif?>
 				</div>
 			<?endforeach?>
 

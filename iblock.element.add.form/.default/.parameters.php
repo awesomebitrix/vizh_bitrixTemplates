@@ -4,6 +4,12 @@
 		'SUBMIT_NAME' => array(
 			'NAME' => 'Текст кнопки добавления элемента',
 			'DEFAULT' => 'Создать'
+		),
+		
+		'ERRORS_HIGHLITE_FIELDS' => array(
+			'NAME' => 'Подсвечивать поля в которых произошла ошибка (альфа)',
+			'TYPE' => 'CHECKBOX',
+			'DEFAULT' => 'N'
 		)
 	);
 

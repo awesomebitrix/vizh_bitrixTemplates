@@ -27,12 +27,11 @@
 }
 
 .bx-vTable div.field.error label {
-	float: left;
+	color: red;
 }
 
 .bx-vTable span.error {
-	float: right;
-	margin-top: 1.1em;
+	margin-top: .5em;
 	font-style: italic;
 	font-size: 11px;
 }
